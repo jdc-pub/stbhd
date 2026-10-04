@@ -1,4 +1,4 @@
-# `bsthd`
+# `stbhd`
 
 ## Computer architecture and Linux kernel lab
 

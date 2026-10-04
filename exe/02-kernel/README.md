@@ -26,7 +26,7 @@ The mainline source tree is large. Before importing it, make sure the repository
 
    ```sh
    cp /path/to/containerization-arm64.config .config
-   scripts/config --set-str LOCALVERSION '-bsthd'
+   scripts/config --set-str LOCALVERSION '-stbhd'
    scripts/config --disable LOCALVERSION_AUTO
    make ARCH=arm64 olddefconfig
    grep -E 'CONFIG_LOCALVERSION=|CONFIG_LOCALVERSION_AUTO=' .config
@@ -43,7 +43,7 @@ The mainline source tree is large. Before importing it, make sure the repository
 6. Copy `Image` to macOS. Launch a disposable container with the custom kernel option supported by the installed CLI (Apple's CLI currently exposes `-k` / `--kernel`):
 
    ```sh
-   container run --name bsthd-kernel-test -k /path/to/Image debian:trixie uname -a
+   container run --name stbhd-kernel-test -k /path/to/Image debian:trixie uname -a
    ```
 
    Use the exact image, arguments, and lifecycle options accepted by your installed CLI. Do not replace a host kernel. If the command fails, save the complete CLI error and boot log, then compare the kernel config to the container's requirements.

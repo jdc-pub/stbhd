@@ -32,7 +32,7 @@ Create this exercise's artifacts under the directory or on the Linux build volum
    /bin/busybox mount -t proc proc /proc
    /bin/busybox mount -t sysfs sysfs /sys
    /bin/busybox mount -t devtmpfs devtmpfs /dev
-   echo 'bsthd: initramfs is running'
+   echo 'stbhd: initramfs is running'
    exec /bin/busybox sh
    ```
 
