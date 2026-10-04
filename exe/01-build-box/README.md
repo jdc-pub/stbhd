@@ -1,5 +1,8 @@
 # Exercise 1 — Make a Linux build box
 
+> [!CAUTION]
+> The original plan text was written by Claude Opus 5.5 with maximum reasoning effort.
+
 ## Objective
 
 Set up an ARM64 Linux environment with persistent storage for kernel work. The Linux kernel source tree has filenames that differ only by letter case. A case-insensitive macOS directory shared into a Linux guest can therefore be unsafe for building. Keep the working tree on a Linux ext4 volume and copy selected artifacts across the boundary.

@@ -1,5 +1,8 @@
 # Exercise 6 — Write a tiny ARM virtual-machine monitor
 
+> [!CAUTION]
+> The original plan text was written by Claude Opus 5.5 with maximum reasoning effort.
+
 ## Objective
 
 Write a small Rust program on the M1 that uses Apple's Hypervisor.framework to execute guest instructions. Add a simple memory-mapped serial device only after a minimal guest runs. This exercise builds understanding of virtualization APIs and device emulation without requiring a complete machine model.

@@ -1,5 +1,8 @@
 # Exercise 5 — Follow firmware with coreboot in QEMU
 
+> [!CAUTION]
+> The original plan text was written by Claude Opus 5.5 with maximum reasoning effort.
+
 ## Objective
 
 Observe a firmware boot path before an operating-system kernel starts. Build coreboot for the exact emulated board supported by its tutorial, boot it in QEMU, and follow serial output through firmware initialization and payload handoff.

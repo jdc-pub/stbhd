@@ -5,7 +5,7 @@
 This repository is a hands-on learning path for an M1 MacBook Air. Each exercise has its own directory and README under [`exe/`](exe/). Work from generic ARM virtual hardware first; keep experiments isolated from macOS boot policy and partitions.
 
 > [!CAUTION]
-> The original plan text was written by Claude Opus 5.5 with maximum reasoning effort. Commands and tool behavior are version-sensitive: check the installed tool's help and relevant upstream documentation before relying on a particular option. Use disposable containers, virtual machines, and disk images. Do not experiment on the Mac's own boot configuration or partitions.
+> The original plan text was written by Claude Opus 5.5 with maximum reasoning effort.
 
 Keep a lab notebook for every exercise: tool versions, source revision, config, exact build and boot commands, and observed output. Do not commit generated build output, disk images, or credentials unless a step explicitly calls for a small source artifact.
 

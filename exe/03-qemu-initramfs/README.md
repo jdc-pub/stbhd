@@ -1,5 +1,8 @@
 # Exercise 3 — Boot a kernel and initramfs in QEMU
 
+> [!CAUTION]
+> The original plan text was written by Claude Opus 5.5 with maximum reasoning effort.
+
 ## Objective
 
 Boot an ARM64 kernel on QEMU's generic `virt` machine, provide your own initial userspace, and inspect the kernel handoff with a serial console and debugger. This virtual platform is not an emulation of the M1 SoC.

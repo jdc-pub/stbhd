@@ -1,5 +1,8 @@
 # Exercise 2 — Build, boot, and patch a kernel
 
+> [!CAUTION]
+> The original plan text was written by Claude Opus 5.5 with maximum reasoning effort.
+
 ## Objective
 
 Keep a pinned, vendored copy of upstream Linux in this exercise directory, build an ARM64 kernel with a container-focused configuration, boot it with Apple's `container` CLI, and prove that a source change made it into the running kernel.

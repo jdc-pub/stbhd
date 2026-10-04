@@ -1,5 +1,8 @@
 # Exercise 4 — Add a root disk, modules, and namespaces
 
+> [!CAUTION]
+> The original plan text was written by Claude Opus 5.5 with maximum reasoning effort.
+
 ## Objective
 
 Move from a temporary initramfs to a persistent ext4 root disk. Then use that system to observe syscalls, load a kernel module, and build a small Linux container-style launcher from kernel primitives.
