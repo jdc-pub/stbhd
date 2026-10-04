@@ -2,6 +2,9 @@
 
 ## Plan
 
+> [!CAUTION]
+> The text in this section was written by Claude Opus 5.5 with maximum reasoning effort.
+
 1. **Build box.** Run `container volume create kbuild`, then `container run -it --name kbox -c 8 -m 4G -v kbuild:/src debian:trixie bash`, and keep all source code under `/src`. Volumes are formatted as ext4, and that matters: the kernel tree has filenames that differ only by uppercase vs. lowercase, which a folder shared from macOS will mangle. `container cp` copies files between a running container and your Mac.
 
 2. **Your kernel, your containers.** Clone mainline Linux and start from the `config-arm64` file in Apple's containerization repo. Set `CONFIG_LOCALVERSION` so you can recognize your build, and build the `Image` target. Copy it to the Mac and pass it to `container run` with `-k`; running `uname -r` inside the container proves your kernel booted. Then add a `pr_err()` line to `start_kernel`, rebuild, and find your message in `container logs --boot`. That's your patch → build → boot loop.
