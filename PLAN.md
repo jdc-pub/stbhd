@@ -1,21 +1,23 @@
 # `bsthd`
 
-## Plan
+## Computer architecture and Linux kernel lab
+
+This repository is a hands-on learning path for an M1 MacBook Air. Each exercise has its own directory and README under [`exe/`](exe/). Work from generic ARM virtual hardware first; keep experiments isolated from macOS boot policy and partitions.
 
 > [!CAUTION]
-> The text in this section was written by Claude Opus 5.5 with maximum reasoning effort.
+> The original plan text was written by Claude Opus 5.5 with maximum reasoning effort. Commands and tool behavior are version-sensitive: check the installed tool's help and relevant upstream documentation before relying on a particular option. Use disposable containers, virtual machines, and disk images. Do not experiment on the Mac's own boot configuration or partitions.
 
-1. **Build box.** Run `container volume create kbuild`, then `container run -it --name kbox -c 8 -m 4G -v kbuild:/src debian:trixie bash`, and keep all source code under `/src`. Volumes are formatted as ext4, and that matters: the kernel tree has filenames that differ only by uppercase vs. lowercase, which a folder shared from macOS will mangle. `container cp` copies files between a running container and your Mac.
+Keep a lab notebook for every exercise: tool versions, source revision, config, exact build and boot commands, and observed output. Do not commit generated build output, disk images, or credentials unless a step explicitly calls for a small source artifact.
 
-2. **Your kernel, your containers.** Clone mainline Linux and start from the `config-arm64` file in Apple's containerization repo. Set `CONFIG_LOCALVERSION` so you can recognize your build, and build the `Image` target. Copy it to the Mac and pass it to `container run` with `-k`; running `uname -r` inside the container proves your kernel booted. Then add a `pr_err()` line to `start_kernel`, rebuild, and find your message in `container logs --boot`. That's your patch → build → boot loop.
+## Exercises
 
-3. **Own the boot.** Running VMs inside `container` (nested virtualization) needs an M3 or newer, so install QEMU on macOS, where `-accel hvf` gives you fast boots. Use a second kernel built from the stock arm64 `defconfig`. Boot it with an initramfs whose `/init` is a static C or Rust program you wrote: it mounts `/proc`, `/sys` and `/dev`, reaps zombies, and starts a static busybox shell. To watch boot in a debugger, run QEMU inside the container (emulated, so slower) with `-s -S` and `nokaslr`. Then attach gdb to `vmlinux`, set `hbreak start_kernel`, and step until your init runs.
+1. [Make a Linux build box](exe/01-build-box/README.md) — create a persistent Linux environment and understand the filesystem boundary between macOS and Linux.
+2. [Build, boot, and patch a kernel](exe/02-kernel/README.md) — vendor a pinned mainline kernel tree, configure ARM64, build it, and run it with Apple's container tool.
+3. [Boot a kernel and initramfs in QEMU](exe/03-qemu-initramfs/README.md) — make a minimal userspace, boot generic ARM virtual hardware, and inspect boot with GDB.
+4. [Add a root disk, modules, and namespaces](exe/04-rootfs-modules-containers/README.md) — boot a disk-backed system, inspect syscalls, load a module, and build a toy container launcher.
+5. [Explore firmware with coreboot](exe/05-coreboot/README.md) — follow a virtual x86 machine from firmware initialization to its payload.
+6. [Write a tiny virtual-machine monitor](exe/06-tiny-vmm/README.md) — use Hypervisor.framework to run guest instructions and emulate a simple device.
 
-4. **Real root filesystem.** `container export` a Debian container that has strace installed, and turn the tarball into a disk image with `mkfs.ext4 -d`. Boot it in QEMU with `root=/dev/vda`, with `init=` pointing at your own init, and no initramfs. Inside that VM:
-   - Trace syscalls with strace.
-   - Write and load a character-device kernel module.
-   - Build a toy container runtime from namespaces, `pivot_root` and cgroups. It's a good contrast with Apple's design of one lightweight VM per container.
+## Progression
 
-5. **Firmware.** coreboot's "Starting from scratch" tutorial builds coreboot's own toolchain and a ROM for an emulated x86 board, then boots it with `qemu-system-x86_64 -bios build/coreboot.rom -serial stdio`. Run it in the container and add `-display none`, since there's no screen. Follow the serial log stage by stage until the payload takes over.
-
-6. **A tiny VMM.** Apple's Hypervisor.framework works on the M1. Write a Rust program that creates a VM, maps memory, runs a few guest instructions, and handles the exits for a fake serial port (UART). Sign it with the `com.apple.security.hypervisor` entitlement; a local self-signed signature is enough. Stretch goal: boot your kernel in it.
+The exercises intentionally move from the simplest boundary to the most complex: host/container → kernel → virtual machine and initial userspace → persistent root filesystem and kernel interfaces → firmware → hypervisor and device emulation. Finish each checkpoint before moving on; keep the ARM64/QEMU and x86/coreboot experiments conceptually separate.
